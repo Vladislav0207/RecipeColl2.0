@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ReciPeColl</string>
+    <string name="item1">Main</string>
+    <string name="item2">Search by ingredient</string>
+    <string name="item3">Favorite</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="get">Get</string>
+</resources>
