@@ -2,7 +2,6 @@ package com.example.recipecoll2.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.recipecoll2.repository.Repository
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")

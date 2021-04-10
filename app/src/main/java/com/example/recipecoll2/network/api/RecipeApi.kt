@@ -1,5 +1,6 @@
-package com.example.recipecoll2.network
+package com.example.recipecoll2.network.api
 
+import com.example.recipecoll2.network.model.Recipes
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

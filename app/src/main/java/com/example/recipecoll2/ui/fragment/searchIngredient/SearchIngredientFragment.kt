@@ -10,7 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
-import com.example.recipecoll2.repository.IngredientView
+import com.example.recipecoll2.domain.model.IngredientForView
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.fragment.IngredientAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
@@ -22,7 +22,7 @@ class SearchIngredientFragment: Fragment() {
     lateinit var navController: NavController
     lateinit var viewModel: RecipeViewModel
     lateinit var adapter: IngredientAdapter
-    var ingredients= mutableListOf<IngredientView>()
+    var ingredients= mutableListOf<IngredientForView>()
 
     val ingredientCallBack = object : OnIngredientItemSelect {
         override fun selectIngredient(adapterPosition: Int) {
@@ -55,13 +55,9 @@ class SearchIngredientFragment: Fragment() {
 
         btnResultSearch.setOnClickListener {
             //create list of names
-            val listNameIngredientsSelect : MutableList<String> = ingredients.filter { it.isSelect }.
-                mapTo(mutableListOf<String>())
-                {
-                    it.name
-                }
+            val listNameIngredientsSelect : MutableList<IngredientForView> = ingredients.filter { it.isSelect }.toMutableList()
 
-            viewModel.listOfNamesIngredientSelected = listNameIngredientsSelect
+            viewModel.listOfIngredientSelected = listNameIngredientsSelect
 
             viewModel.searchByIngredient()
 

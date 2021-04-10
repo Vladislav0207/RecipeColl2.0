@@ -3,16 +3,15 @@ package com.example.recipecoll2.ui.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.recipecoll2.network.Recipe
-import com.example.recipecoll2.repository.IngredientView
-import com.example.recipecoll2.repository.Repository
+import com.example.recipecoll2.database.model.Recipe
+import com.example.recipecoll2.domain.model.IngredientForView
 import kotlinx.coroutines.*
 
 class   RecipeViewModel (val repository: Repository) : ViewModel() {
 
     var showRecipe : Recipe? = null
 
-    var ingredientsView = mutableSetOf<IngredientView>()
+    var ingredientsView = mutableSetOf<IngredientForView>()
 
     val scope = CoroutineScope(Dispatchers.IO)
 
@@ -26,7 +25,7 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
     val recipeResult = mutableListOf<Recipe>()
 
 
-    var listOfNamesIngredientSelected = mutableListOf<String>()
+    var listOfIngredientSelected = mutableListOf<IngredientForView>()
 
     fun getData() {
         scope.launch {
@@ -66,7 +65,7 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
     fun searchByIngredient(){
         CoroutineScope(Dispatchers.IO).launch {
             recipeResult.clear()
-            val data = repository.searchByIngredient(listOfNamesIngredientSelected)
+            val data = repository.searchByIngredient(listOfIngredientSelected)
             recipeResult.addAll(data)
             return@launch
         }

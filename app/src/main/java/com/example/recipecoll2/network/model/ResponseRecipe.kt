@@ -1,15 +1,14 @@
-package com.example.recipecoll2.network
+package com.example.recipecoll2.network.model
 
 import androidx.room.*
 
 
 data class Recipes(
-    val recipes: MutableList<Recipe>
+    val recipes: MutableList<ResponseRecipe>
 )
 
-data class Recipe (
-    @Relation(parentColumn ="id", entityColumn = "recipe_id" )
-    var extendedIngredients: List<Ingredient>,
+data class  ResponseRecipe (
+    var extendedIngredients: List<ResponseIngredient>,
     var id: Int,
     val title: String,
     val readyInMinutes: Int,
@@ -18,15 +17,13 @@ data class Recipe (
     val instructions: String,
     var isFavorite : Int = 0
 )
-@Entity(tableName = "ingredient")
-data class Ingredient(
+data class ResponseIngredient(
     var id: Int,
     var image:String,
     var nameClean: String,
     var amount: String,
     var unit: String,
     var recipe_id: Int,
-    @PrimaryKey (autoGenerate = true)
     var key : Int=0,
     var isSelect : Int =0
 )

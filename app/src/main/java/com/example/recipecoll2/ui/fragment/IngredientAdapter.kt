@@ -7,12 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipecoll2.R
-import com.example.recipecoll2.repository.IngredientView
+import com.example.recipecoll2.domain.model.IngredientForView
 import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
-import com.example.recipecoll2.ui.fragment.searchIngredient.SearchIngredientFragment
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
-class IngredientAdapter (val ingredients: MutableList<IngredientView>,
+class IngredientAdapter (val ingredientFors: MutableList<IngredientForView>,
                          val ingredientCallBack: OnIngredientItemSelect):
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     class IngredientViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -34,8 +33,8 @@ class IngredientAdapter (val ingredients: MutableList<IngredientView>,
     }
 
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
-        holder.name.text= ingredients[position].name
-        if (ingredients[position].isSelect){
+        holder.name.text= ingredientFors[position].name
+        if (ingredientFors[position].isSelect){
             holder.imageSelect.setImageResource(R.drawable.ic_baseline_check_box_24)
         }
         else{
@@ -44,6 +43,6 @@ class IngredientAdapter (val ingredients: MutableList<IngredientView>,
     }
 
     override fun getItemCount(): Int {
-        return ingredients.size
+        return ingredientFors.size
     }
 }
