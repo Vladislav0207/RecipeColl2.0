@@ -2,6 +2,9 @@ package com.example.recipecoll2.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.recipecoll2.database.dao.IngredientDao
+import com.example.recipecoll2.database.model.LocalRecipe
+import com.example.recipecoll2.database.dao.RecipeDao
 import com.example.recipecoll2.network.Ingredient
 
 

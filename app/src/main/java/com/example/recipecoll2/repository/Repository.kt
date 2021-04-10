@@ -1,7 +1,7 @@
 package com.example.recipecoll2.repository
 
 import com.example.recipecoll2.database.LocalModel
-import com.example.recipecoll2.database.LocalRecipe
+import com.example.recipecoll2.database.model.LocalRecipe
 import com.example.recipecoll2.network.*
 import javax.inject.Inject
 
@@ -16,13 +16,15 @@ class Repository @Inject constructor (
 
 
             val localRecipeList = mutableListOf<LocalRecipe>()
-            recipeList.mapTo(localRecipeList){LocalRecipe( it.id,
+            recipeList.mapTo(localRecipeList){
+                LocalRecipe( it.id,
                 it.title,
                 it.readyInMinutes,
                 it.servings,
                 it.image,
                 it.instructions,
-                it.isFavorite)}
+                it.isFavorite)
+            }
 
             localModel.insertRecipes(localRecipeList)
             for (i in 0 until recipeList.size ) {

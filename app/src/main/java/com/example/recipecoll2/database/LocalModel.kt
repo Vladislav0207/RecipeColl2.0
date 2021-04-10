@@ -2,6 +2,7 @@ package com.example.recipecoll2.database
 
 import android.content.Context
 import androidx.room.Room
+import com.example.recipecoll2.database.model.LocalRecipe
 import com.example.recipecoll2.network.Ingredient
 import com.example.recipecoll2.network.Recipe
 import dagger.hilt.android.qualifiers.ApplicationContext
