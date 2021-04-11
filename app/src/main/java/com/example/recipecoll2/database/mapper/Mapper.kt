@@ -8,43 +8,50 @@ import com.example.recipecoll2.domain.model.DomainRecipe
 
 
 fun Ingredient.toDomainIngredient(): DomainIngredient =
-    DomainIngredient(id,
+    DomainIngredient(
+        id,
         image,
         nameClean,
         amount,
         unit,
         recipe_id,
         key,
-        isSelect)
+        isSelect
+    )
 
 fun DomainIngredient.toIngredient(): Ingredient =
-    Ingredient(id,
+    Ingredient(
+        id,
         image,
         nameClean,
         amount,
         unit,
         recipe_id,
         key,
-        isSelect)
+        isSelect
+    )
 
-fun Recipe.toDomainRecipe() : DomainRecipe =
+fun Recipe.toDomainRecipe(): DomainRecipe =
     DomainRecipe(
-        extendedIngredients.mapTo(mutableListOf()){
-        it.toDomainIngredient()
-    },
+        extendedIngredients.mapTo(mutableListOf()) {
+            it.toDomainIngredient()
+        },
         id,
         title,
         readyInMinutes,
         servings,
         image,
         instructions,
-        isFavorite)
+        isFavorite
+    )
 
-fun DomainRecipe.toLocalRecipe() : LocalRecipe =
-    LocalRecipe(id,
+fun DomainRecipe.toLocalRecipe(): LocalRecipe =
+    LocalRecipe(
+        id,
         title,
         readyInMinutes,
         servings,
         image,
         instructions,
-        isFavorite)
+        isFavorite
+    )

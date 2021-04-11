@@ -8,15 +8,13 @@ class RecipeInteractorImpl(
     private val networkRepository: NetworkRepository
 ) : RecipeInteractor {
     override suspend fun getData(): MutableList<DomainRecipe> {
-       return if (networkRepository.getRemoteDataRecipe().isEmpty())
-        {
+        return if (networkRepository.getRemoteDataRecipe().isEmpty()) {
             databaseRepository.getAllRecipes().toMutableList()
-        }
-        else{
+        } else {
             val recipes = networkRepository.getRemoteDataRecipe()
             databaseRepository.insertRecipes(recipes)
-           recipes
-       }
+            recipes
+        }
     }
 
     override suspend fun updateRecipe(recipeId: Int, isSelected: Int) {
@@ -24,7 +22,7 @@ class RecipeInteractorImpl(
     }
 
     override suspend fun getAllIngredientsForView(): MutableSet<IngredientOnlyName> {
-        return databaseRepository.getAllIngredients().mapTo(mutableSetOf<IngredientOnlyName>()){
+        return databaseRepository.getAllIngredients().mapTo(mutableSetOf<IngredientOnlyName>()) {
             IngredientOnlyName(
                 it.nameClean
             )
@@ -32,37 +30,37 @@ class RecipeInteractorImpl(
     }
 
     override suspend fun searchByIngredient(listOfNames: MutableList<IngredientOnlyName>): MutableList<DomainRecipe> {
-        val recipeList= getData()
+        val recipeList = getData()
         val resultList = mutableListOf<DomainRecipe>()
 
-        for (recipeCount in 0 until  recipeList.size)
+        for (recipeCount in 0 until recipeList.size)
         //           -- recipeList[i] -- for each recipe
         {
-            var checkCount =0
+            var checkCount = 0
 
 
-            for (ingredientCount in 0 until  recipeList[recipeCount].extendedIngredients.size)
+            for (ingredientCount in 0 until recipeList[recipeCount].extendedIngredients.size)
             //               -- recipeList[i].extendedIngredients[j]-- for each list of ingredients
             {
 
 
-                for (ingredientSearchCount in 0 until  listOfNames.size)
+                for (ingredientSearchCount in 0 until listOfNames.size)
                 //                       -- from each ingredient from result of search --
                 {
 
 
                     if (recipeList[recipeCount].extendedIngredients[ingredientCount].nameClean
                         ==
-                        listOfNames[ingredientSearchCount].name)
-                        {
-                        checkCount+=1
+                        listOfNames[ingredientSearchCount].name
+                    ) {
+                        checkCount += 1
                     }
 
                 }
             }
 
 
-            if (checkCount == listOfNames.size){
+            if (checkCount == listOfNames.size) {
                 resultList.add(recipeList[recipeCount])
             }
         }
@@ -70,7 +68,7 @@ class RecipeInteractorImpl(
     }
 
     override suspend fun getFavorites(): MutableList<DomainRecipe> {
-      return  databaseRepository.getAllRecipes().filter { it.isFavorite == 1 }.toMutableList()
+        return databaseRepository.getAllRecipes().filter { it.isFavorite == 1 }.toMutableList()
     }
 
     override suspend fun getRecipeById(id: Int): DomainRecipe {

@@ -13,12 +13,13 @@ import com.example.recipecoll2.ui.model.RecipeView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recipe_item.view.*
 
-class RecipeAdapter (val recipes: MutableList<RecipeView>,
-                     val recipeCallback : OnRecipeItemClick):
-    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>()
-{
+class RecipeAdapter(
+    val recipes: MutableList<RecipeView>,
+    val recipeCallback: OnRecipeItemClick
+) :
+    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
-    class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.nameRecipe)
         val ingredients = itemView.findViewById<TextView>(R.id.ingredientsRecipe)
         val icon = itemView.findViewById<ImageView>(R.id.imageRecipe)
@@ -26,7 +27,8 @@ class RecipeAdapter (val recipes: MutableList<RecipeView>,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.recipe_item,parent,false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.recipe_item, parent, false)
         val holder = RecipeViewHolder(itemView)
 
         holder.itemView.setOnClickListener {
@@ -46,25 +48,23 @@ class RecipeAdapter (val recipes: MutableList<RecipeView>,
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
 
-        holder.name.text=recipes[position].title
+        holder.name.text = recipes[position].title
 
         var body = ""
-        for (i in 0 until recipes[position].extendedIngredients.size)
-        {
+        for (i in 0 until recipes[position].extendedIngredients.size) {
             if (i != 0) {
                 body += ", ${recipes[position].extendedIngredients[i].nameClean}"
             } else {
-                body +="Ingredients: ${recipes[position].extendedIngredients[i].nameClean}"
+                body += "Ingredients: ${recipes[position].extendedIngredients[i].nameClean}"
             }
         }
-        holder.ingredients.text=body
+        holder.ingredients.text = body
 
         Picasso.get().load(recipes[position].image).into(holder.icon)
 
-        if (recipes[position].isFavorite == 0){
+        if (recipes[position].isFavorite == 0) {
             holder.iconFavorite.setImageResource(R.drawable.ic_favorite_border_24)
-        }
-        else{
+        } else {
             holder.iconFavorite.setImageResource(R.drawable.ic_favorite_24)
         }
     }

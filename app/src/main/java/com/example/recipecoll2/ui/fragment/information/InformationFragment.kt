@@ -19,17 +19,17 @@ import kotlinx.android.synthetic.main.fragment_information.*
 class InformationFragment : Fragment() {
     lateinit var navController: NavController
     lateinit var viewModel: InformationViewModel
-    lateinit var recipe:RecipeView
+    lateinit var recipe: RecipeView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = Intent().getIntExtra("recipeID",0)
+        val intent = Intent().getIntExtra("recipeID", 0)
         viewModel.getRecipeById(intent)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
 
 
         return inflater.inflate(R.layout.fragment_information, container, false)
@@ -46,17 +46,17 @@ class InformationFragment : Fragment() {
         Picasso.get().load(recipe.image).into(imageInf)
         val time = "readyInMinutes: " + recipe.readyInMinutes.toString()
         val servings = "servings: " + recipe.servings.toString()
-        nameInf.text= recipe.title
+        nameInf.text = recipe.title
         timeInf.text = time
-        servingsInf.text =servings
+        servingsInf.text = servings
         var ingredient = "Ingredients:\n"
         recipe.extendedIngredients.forEach {
-           ingredient += it.nameClean + ": " + it.amount + " " + it.unit + "\n"
+            ingredient += it.nameClean + ": " + it.amount + " " + it.unit + "\n"
         }
-        ingredientsInf.text=ingredient
+        ingredientsInf.text = ingredient
         instructionInf.text = recipe.instructions.replace(
             "</li><li>",
-        "\n"
+            "\n"
         ).replace(
             "<ol><li>",
             "  "

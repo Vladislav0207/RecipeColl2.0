@@ -14,17 +14,19 @@ fun DomainIngredient.toIngredientView() =
         unit,
         recipe_id,
         key,
-        isSelect)
+        isSelect
+    )
 
 fun DomainRecipe.toRecipeView() =
     RecipeView(
-        extendedIngredients.mapTo(mutableListOf()){
-        it.toIngredientView()
-    },
+        extendedIngredients.mapTo(mutableListOf()) {
+            it.toIngredientView()
+        },
         id,
         title,
         readyInMinutes,
         servings,
         image,
         instructions,
-        isFavorite)
+        isFavorite
+    )

@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
     lateinit var viewModel: RecipeViewModel
-    @Inject lateinit var factory: RecipeViewModelFactory
+    @Inject
+    lateinit var factory: RecipeViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(toolbar)
         navController = findNavController(R.id.navHost)
-        setupActionBarWithNavController(navController,drawer_layout)
-        toolbar.setupWithNavController(navController,drawer_layout)
+        setupActionBarWithNavController(navController, drawer_layout)
+        toolbar.setupWithNavController(navController, drawer_layout)
         nav_view.setupWithNavController(navController)
 
 

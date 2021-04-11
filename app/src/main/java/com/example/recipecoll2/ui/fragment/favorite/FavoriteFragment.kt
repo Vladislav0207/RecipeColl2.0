@@ -19,12 +19,12 @@ import com.example.recipecoll2.ui.model.RecipeView
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_main.*
 
-class FavoriteFragment: Fragment() {
+class FavoriteFragment : Fragment() {
     lateinit var navController: NavController
     lateinit var viewModel: FavoriteViewModel
     var favoriteRecipesList = mutableListOf<RecipeView>()
 
-    val recipeCallBack = object : OnRecipeItemClick{
+    val recipeCallBack = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
             viewModel.showRecipe = favoriteRecipesList[adapterPosition]
             navController.navigate(R.id.informationFragment)
@@ -40,7 +40,6 @@ class FavoriteFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
 
     }
@@ -64,7 +63,7 @@ class FavoriteFragment: Fragment() {
         favoriteRecipesList = viewModel.favoriteMutableLiveData.value!!
 
 
-        val adapter = RecipeAdapter(favoriteRecipesList, recipeCallBack )
+        val adapter = RecipeAdapter(favoriteRecipesList, recipeCallBack)
         favoriteRecyclerView.adapter = adapter
         favoriteRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -72,7 +71,7 @@ class FavoriteFragment: Fragment() {
         viewModel.favoriteMutableLiveData.observe(viewLifecycleOwner, Observer {
             favoriteRecipesList.clear()
             favoriteRecipesList.addAll(it)
-            if(favoriteRecyclerView != null) {
+            if (favoriteRecyclerView != null) {
                 favoriteRecyclerView.adapter?.notifyDataSetChanged()
             }
         })

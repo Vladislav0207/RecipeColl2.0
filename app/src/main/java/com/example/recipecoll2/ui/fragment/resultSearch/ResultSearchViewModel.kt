@@ -8,23 +8,24 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ResultSearchViewModel (private val context: Context,
-                             private val recipeInteractor: RecipeInteractor
-) : ViewModel()  {
+class ResultSearchViewModel(
+    private val context: Context,
+    private val recipeInteractor: RecipeInteractor
+) : ViewModel() {
 
 
-    fun updateInFavorites(position :Int){
+    fun updateInFavorites(position: Int) {
         viewModelScope.launch {
-            recipeInteractor.updateRecipe(recipeLive.value!![position].id,1)
+            recipeInteractor.updateRecipe(recipeLive.value!![position].id, 1)
             recipeLive.value!![position].isFavorite = 1
             favoriteList.add(recipeLive.value!![position])
         }
     }
 
-    fun updateOutFavorites(recipeId: Int){
+    fun updateOutFavorites(recipeId: Int) {
         viewModelScope.launch {
-            recipeInteractor.updateRecipe(recipeId,0)
-            favoriteList.removeIf{it.id == recipeId}
+            recipeInteractor.updateRecipe(recipeId, 0)
+            favoriteList.removeIf { it.id == recipeId }
         }
     }
 }

@@ -8,12 +8,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class SearchIngredientViewModel (private val context: Context,
-                                 private val recipeInteractor: RecipeInteractor
-) : ViewModel()  {
+class SearchIngredientViewModel(
+    private val context: Context,
+    private val recipeInteractor: RecipeInteractor
+) : ViewModel() {
 
 
-    fun searchByIngredient(){
+    fun searchByIngredient() {
         viewModelScope.launch {
             recipeResult.clear()
             val data = recipeInteractor.searchByIngredient(listOfIngredientSelected)

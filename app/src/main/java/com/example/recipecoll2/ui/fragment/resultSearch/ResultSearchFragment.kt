@@ -14,14 +14,13 @@ import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_result_search.*
 
 class ResultSearchFragment : Fragment() {
     lateinit var navController: NavController
     lateinit var viewModel: RecipeViewModel
-     var resultList = mutableListOf<Recipe>()
+    var resultList = mutableListOf<Recipe>()
 
     val recipeCallback = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
@@ -69,7 +68,6 @@ class ResultSearchFragment : Fragment() {
         resultSearchRecyclerView.adapter = adapter
         resultSearchRecyclerView.layoutManager = LinearLayoutManager(this.context)
         resultSearchRecyclerView.adapter?.notifyDataSetChanged()
-
 
 
     }

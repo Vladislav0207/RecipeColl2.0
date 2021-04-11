@@ -11,21 +11,22 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel (private val context: Context,
-                         private val recipeInteractor: RecipeInteractor
-) : ViewModel()  {
+class FavoriteViewModel(
+    private val context: Context,
+    private val recipeInteractor: RecipeInteractor
+) : ViewModel() {
 
     val favoriteMutableLiveData = MutableLiveData<MutableList<RecipeView>>()
     fun getFavorites() {
-        viewModelScope.launch  {
+        viewModelScope.launch {
             val data = recipeInteractor.getFavorites().map { it.toRecipeView() }.toMutableList()
             favoriteMutableLiveData.postValue(data)
         }
     }
 
-    fun updateOutFavorites(recipeId: Int){
+    fun updateOutFavorites(recipeId: Int) {
         viewModelScope.launch {
-            recipeInteractor.updateRecipe(recipeId,0)
+            recipeInteractor.updateRecipe(recipeId, 0)
         }
     }
 }

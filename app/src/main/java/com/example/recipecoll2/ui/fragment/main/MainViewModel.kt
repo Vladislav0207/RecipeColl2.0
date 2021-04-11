@@ -11,8 +11,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel (private val context: Context,
-                     private val recipeInteractor: RecipeInteractor
+class MainViewModel(
+    private val context: Context,
+    private val recipeInteractor: RecipeInteractor
 ) : ViewModel() {
 
     val recipeMutableLiveData = MutableLiveData<MutableList<RecipeView>>()
@@ -24,15 +25,15 @@ class MainViewModel (private val context: Context,
         }
     }
 
-    fun updateInFavorites(position :Int){
+    fun updateInFavorites(position: Int) {
         viewModelScope.launch {
-            recipeInteractor.updateRecipe(recipeMutableLiveData.value!![position].id,1)
+            recipeInteractor.updateRecipe(recipeMutableLiveData.value!![position].id, 1)
         }
     }
 
-    fun updateOutFavorites(recipeId: Int){
+    fun updateOutFavorites(recipeId: Int) {
         viewModelScope.launch {
-            recipeInteractor.updateRecipe(recipeId,0)
+            recipeInteractor.updateRecipe(recipeId, 0)
         }
     }
 }

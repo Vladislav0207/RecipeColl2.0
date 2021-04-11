@@ -4,5 +4,5 @@ import com.example.recipecoll2.domain.model.DomainRecipe
 
 
 interface NetworkRepository {
-    suspend fun getRemoteDataRecipe() : MutableList<DomainRecipe>
+    suspend fun getRemoteDataRecipe(): MutableList<DomainRecipe>
 }

@@ -81,7 +81,7 @@ class MainFragment : Fragment() {
         viewModel.recipeMutableLiveData.observe(viewLifecycleOwner, Observer {
             recipes.clear()
             recipes.addAll(it)
-            if(mainRecyclerView != null) {
+            if (mainRecyclerView != null) {
                 mainRecyclerView.adapter?.notifyDataSetChanged()
             }
         })

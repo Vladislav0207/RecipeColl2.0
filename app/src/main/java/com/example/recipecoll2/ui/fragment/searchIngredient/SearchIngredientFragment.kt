@@ -14,15 +14,14 @@ import com.example.recipecoll2.domain.model.IngredientOnlyName
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.fragment.IngredientAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_search_ingredient.*
 
-class SearchIngredientFragment: Fragment() {
+class SearchIngredientFragment : Fragment() {
 
     lateinit var navController: NavController
     lateinit var viewModel: RecipeViewModel
     lateinit var adapter: IngredientAdapter
-    var ingredients= mutableListOf<IngredientOnlyName>()
+    var ingredients = mutableListOf<IngredientOnlyName>()
 
     val ingredientCallBack = object : OnIngredientItemSelect {
         override fun selectIngredient(adapterPosition: Int) {
@@ -55,7 +54,8 @@ class SearchIngredientFragment: Fragment() {
 
         btnResultSearch.setOnClickListener {
             //create list of names
-            val listNameIngredientsSelect : MutableList<IngredientOnlyName> = ingredients.filter { it.isSelect }.toMutableList()
+            val listNameIngredientsSelect: MutableList<IngredientOnlyName> =
+                ingredients.filter { it.isSelect }.toMutableList()
 
             viewModel.listOfIngredientSelected = listNameIngredientsSelect
 
