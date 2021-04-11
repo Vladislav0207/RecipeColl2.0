@@ -1,8 +1,7 @@
 package com.example.recipecoll2.domain
 
-import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.domain.model.DomainRecipe
-import com.example.recipecoll2.domain.model.IngredientForView
+import com.example.recipecoll2.domain.model.IngredientOnlyName
 
 class RecipeInteractorImpl(
     private val databaseRepository: DatabaseRepository,
@@ -24,15 +23,15 @@ class RecipeInteractorImpl(
         databaseRepository.updateRecipe(recipeId, isSelected)
     }
 
-    override suspend fun getAllIngredientsForView(): MutableSet<IngredientForView> {
-        return databaseRepository.getAllIngredients().mapTo(mutableSetOf<IngredientForView>()){
-            IngredientForView(
+    override suspend fun getAllIngredientsForView(): MutableSet<IngredientOnlyName> {
+        return databaseRepository.getAllIngredients().mapTo(mutableSetOf<IngredientOnlyName>()){
+            IngredientOnlyName(
                 it.nameClean
             )
         }
     }
 
-    override suspend fun searchByIngredient(listOfNames: MutableList<IngredientForView>): MutableList<DomainRecipe> {
+    override suspend fun searchByIngredient(listOfNames: MutableList<IngredientOnlyName>): MutableList<DomainRecipe> {
         val recipeList= getData()
         val resultList = mutableListOf<DomainRecipe>()
 
@@ -72,6 +71,10 @@ class RecipeInteractorImpl(
 
     override suspend fun getFavorites(): MutableList<DomainRecipe> {
       return  databaseRepository.getAllRecipes().filter { it.isFavorite == 1 }.toMutableList()
+    }
+
+    override suspend fun getRecipeById(id: Int): DomainRecipe {
+        return databaseRepository.getRecipeById(id)
     }
 
 }

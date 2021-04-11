@@ -1,5 +1,6 @@
 package com.example.recipecoll2.ui.fragment.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,19 +17,21 @@ import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
+import com.example.recipecoll2.ui.fragment.information.InformationFragment
+import com.example.recipecoll2.ui.model.RecipeView
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
     lateinit var navController: NavController
-    lateinit var viewModel: RecipeViewModel
+    lateinit var viewModel: MainViewModel
     lateinit var adapter: RecipeAdapter
-    var recipes = mutableListOf<Recipe>()
+    var recipes = mutableListOf<RecipeView>()
 
     val recipeCallback = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
-            viewModel.showRecipe = recipes[adapterPosition]
-            navController.navigate(R.id.informationFragment)
+            val intent = Intent(context, InformationFragment::class.java)
+            intent.putExtra("recipeID", recipes[adapterPosition].id)
+            startActivity(intent)
         }
 
         override fun changeFavourite(adapterPosition: Int) {
@@ -36,7 +39,7 @@ class MainFragment : Fragment() {
                 viewModel.updateInFavorites(adapterPosition)
             } else {
                 viewModel.updateOutFavorites(recipes[adapterPosition].id)
-                viewModel.recipeLive.value!![adapterPosition].isFavorite = 0
+                viewModel.recipeMutableLiveData.value!![adapterPosition].isFavorite = 0
             }
             mainRecyclerView.adapter!!.notifyItemChanged(adapterPosition)
 
@@ -52,7 +55,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(activity as MainActivity).get(RecipeViewModel::class.java)
+        viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
 
 
 
@@ -66,21 +69,18 @@ class MainFragment : Fragment() {
 
 
 
-        viewModel.getAllIngredientsView()
-        viewModel.getFavorites()
+
         viewModel.getData()
-        recipes = viewModel.recipeLive.value!!
+        recipes = viewModel.recipeMutableLiveData.value!!
 
 
         adapter = RecipeAdapter(recipes, recipeCallback)
         mainRecyclerView.adapter = adapter
         mainRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.recipeLive.observe(activity as MainActivity, Observer {
+        viewModel.recipeMutableLiveData.observe(viewLifecycleOwner, Observer {
             recipes.clear()
             recipes.addAll(it)
-            Log.d("!!!R",it.toString())
-
             if(mainRecyclerView != null) {
                 mainRecyclerView.adapter?.notifyDataSetChanged()
             }

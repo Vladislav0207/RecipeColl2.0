@@ -15,4 +15,6 @@ interface DatabaseRepository {
     suspend fun updateRecipe(id:Int, isSelected:Int)
 
     suspend fun getAllIngredients(): MutableList<DomainIngredient>
+
+    suspend fun getRecipeById(id:Int): DomainRecipe
 }

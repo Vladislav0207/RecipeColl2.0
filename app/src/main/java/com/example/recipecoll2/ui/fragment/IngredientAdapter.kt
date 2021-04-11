@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipecoll2.R
-import com.example.recipecoll2.domain.model.IngredientForView
+import com.example.recipecoll2.domain.model.IngredientOnlyName
 import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
-class IngredientAdapter (val ingredientFors: MutableList<IngredientForView>,
+class IngredientAdapter (val ingredientFors: MutableList<IngredientOnlyName>,
                          val ingredientCallBack: OnIngredientItemSelect):
     RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder>() {
     class IngredientViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView) {

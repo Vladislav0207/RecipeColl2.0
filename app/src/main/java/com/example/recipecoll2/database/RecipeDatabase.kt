@@ -8,7 +8,6 @@ import com.example.recipecoll2.database.dao.RecipeDao
 import com.example.recipecoll2.database.model.Ingredient
 
 
-//create database
 @Database(entities = [LocalRecipe::class, Ingredient::class], version = 1)
 abstract class RecipeDatabase : RoomDatabase() {
     abstract fun recipeDao(): RecipeDao

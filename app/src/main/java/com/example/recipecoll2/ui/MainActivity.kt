@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipecoll2.R
 import com.example.recipecoll2.ui.viewModel.RecipeViewModel
-import com.example.recipecoll2.ui.viewModel.RecipeViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject

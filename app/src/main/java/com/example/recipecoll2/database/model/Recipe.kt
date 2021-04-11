@@ -13,6 +13,8 @@ data class Recipe (
     val instructions: String,
     var isFavorite : Int = 0
 )
+
+
 @Entity(tableName = "ingredient")
 data class Ingredient(
     var id: Int,

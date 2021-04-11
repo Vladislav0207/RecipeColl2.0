@@ -56,4 +56,8 @@ class DatabaseRepositoryImpl @Inject constructor (@ApplicationContext context: C
        }
     }
 
+    override suspend fun getRecipeById(id:Int): DomainRecipe {
+        return recipeDatabase.recipeDao().getRecipeById(id).toDomainRecipe()
+    }
+
 }

@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipecoll2.R
 import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
+import com.example.recipecoll2.ui.model.RecipeView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recipe_item.view.*
 
-class RecipeAdapter (val recipes: MutableList<Recipe>,
+class RecipeAdapter (val recipes: MutableList<RecipeView>,
                      val recipeCallback : OnRecipeItemClick):
     RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>()
 {

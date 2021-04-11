@@ -1,17 +1,21 @@
 package com.example.recipecoll2.ui.viewModel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.recipecoll2.database.model.Recipe
-import com.example.recipecoll2.domain.model.IngredientForView
+import com.example.recipecoll2.domain.RecipeInteractor
+import com.example.recipecoll2.domain.model.IngredientOnlyName
 import kotlinx.coroutines.*
 
-class   RecipeViewModel (val repository: Repository) : ViewModel() {
+class    (private val context: Context,
+                         private val recipeInteractor: RecipeInteractor
+                         ) : ViewModel() {
 
     var showRecipe : Recipe? = null
 
-    var ingredientsView = mutableSetOf<IngredientForView>()
+    var ingredientsView = mutableSetOf<IngredientOnlyName>()
 
     val scope = CoroutineScope(Dispatchers.IO)
 
@@ -25,7 +29,7 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
     val recipeResult = mutableListOf<Recipe>()
 
 
-    var listOfIngredientSelected = mutableListOf<IngredientForView>()
+    var listOfIngredientSelected = mutableListOf<IngredientOnlyName>()
 
     fun getData() {
         scope.launch {
@@ -34,15 +38,11 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
         }
    }
 
-    fun updateRecipe(recipeId:Int,isSelected:Int){
-        scope.launch {
-            repository.updateRecipe(recipeId,isSelected)
-        }
-    }
+
 
     fun updateInFavorites(position :Int){
         scope.launch {
-            updateRecipe(recipeLive.value!![position].id,1)
+            recipeInteractor.updateRecipe(recipeLive.value!![position].id,1)
             recipeLive.value!![position].isFavorite = 1
             favoriteList.add(recipeLive.value!![position])
         }
@@ -50,7 +50,7 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
 
     fun updateOutFavorites(recipeId: Int){
         scope.launch {
-            updateRecipe(recipeId,0)
+            recipeInteractor.updateRecipe(recipeId,0)
             favoriteList.removeIf{it.id == recipeId}
         }
     }
@@ -74,7 +74,6 @@ class   RecipeViewModel (val repository: Repository) : ViewModel() {
     fun getFavorites() {
         CoroutineScope(Dispatchers.Main).launch  {
             val data = repository.getFavorites()
-            Log.d("!!!RRR",repository.getFavorites().toString())
             favoriteList.clear()
             favoriteList.addAll(data)
         }

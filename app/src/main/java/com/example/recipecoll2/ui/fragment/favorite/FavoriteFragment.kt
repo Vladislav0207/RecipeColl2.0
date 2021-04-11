@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -14,13 +15,14 @@ import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
+import com.example.recipecoll2.ui.model.RecipeView
 import kotlinx.android.synthetic.main.fragment_favorite.*
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class FavoriteFragment: Fragment() {
     lateinit var navController: NavController
-    lateinit var viewModel: RecipeViewModel
-    var favoriteRecipesList = mutableListOf<Recipe>()
+    lateinit var viewModel: FavoriteViewModel
+    var favoriteRecipesList = mutableListOf<RecipeView>()
 
     val recipeCallBack = object : OnRecipeItemClick{
         override fun showRecipe(adapterPosition: Int) {
@@ -48,7 +50,7 @@ class FavoriteFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ViewModelProvider(activity as MainActivity).get(RecipeViewModel::class.java)
+        viewModel = ViewModelProvider(activity as MainActivity).get(FavoriteViewModel::class.java)
 
 
         return inflater.inflate(R.layout.fragment_favorite, container, false)
@@ -59,14 +61,20 @@ class FavoriteFragment: Fragment() {
 
         navController = findNavController()
 
-        favoriteRecipesList.clear()
-        favoriteRecipesList.addAll(viewModel.favoriteList)
+        favoriteRecipesList = viewModel.favoriteMutableLiveData.value!!
+
 
         val adapter = RecipeAdapter(favoriteRecipesList, recipeCallBack )
         favoriteRecyclerView.adapter = adapter
         favoriteRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        favoriteRecyclerView.adapter?.notifyDataSetChanged()
 
 
+        viewModel.favoriteMutableLiveData.observe(viewLifecycleOwner, Observer {
+            favoriteRecipesList.clear()
+            favoriteRecipesList.addAll(it)
+            if(favoriteRecyclerView != null) {
+                favoriteRecyclerView.adapter?.notifyDataSetChanged()
+            }
+        })
     }
 }

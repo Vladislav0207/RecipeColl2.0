@@ -1,5 +1,7 @@
 package com.example.recipecoll2.ui.fragment.information
 
+import android.content.Intent
+import android.content.Intent.getIntent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +12,26 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.recipecoll2.R
 import com.example.recipecoll2.ui.MainActivity
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
+import com.example.recipecoll2.ui.model.RecipeView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_information.*
 
 class InformationFragment : Fragment() {
     lateinit var navController: NavController
-    lateinit var viewModel: RecipeViewModel
-
+    lateinit var viewModel: InformationViewModel
+    lateinit var recipe:RecipeView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val intent = Intent().getIntExtra("recipeID",0)
+        viewModel.getRecipeById(intent)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel= ViewModelProvider(activity as MainActivity).get(RecipeViewModel::class.java)
+
+
         return inflater.inflate(R.layout.fragment_information, container, false)
     }
 
@@ -32,18 +40,21 @@ class InformationFragment : Fragment() {
 
         navController = findNavController()
 
-        Picasso.get().load(viewModel.showRecipe!!.image).into(imageInf)
-        val time = "readyInMinutes: " + viewModel.showRecipe!!.readyInMinutes.toString()
-        val servings = "servings: " + viewModel.showRecipe!!.servings.toString()
-        nameInf.text=viewModel.showRecipe!!.title
+
+        recipe = viewModel.informationMutableLiveData.value!!
+
+        Picasso.get().load(recipe.image).into(imageInf)
+        val time = "readyInMinutes: " + recipe.readyInMinutes.toString()
+        val servings = "servings: " + recipe.servings.toString()
+        nameInf.text= recipe.title
         timeInf.text = time
         servingsInf.text =servings
         var ingredient = "Ingredients:\n"
-        viewModel.showRecipe!!.extendedIngredients.forEach {
+        recipe.extendedIngredients.forEach {
            ingredient += it.nameClean + ": " + it.amount + " " + it.unit + "\n"
         }
         ingredientsInf.text=ingredient
-        instructionInf.text = viewModel.showRecipe!!.instructions.replace(
+        instructionInf.text = recipe.instructions.replace(
             "</li><li>",
         "\n"
         ).replace(
