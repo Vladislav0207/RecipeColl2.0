@@ -3,6 +3,8 @@ package com.example.recipecoll2.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -10,6 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipecoll2.R
+import com.example.recipecoll2.ui.fragment.information.InformationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -17,10 +20,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+
     lateinit var navController: NavController
-//    lateinit var viewModel: RecipeViewModel
-//    @Inject
-//    lateinit var factory: RecipeViewModelFactory
+//    val informationViewModel: InformationViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,16 +36,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, drawer_layout)
         toolbar.setupWithNavController(navController, drawer_layout)
         nav_view.setupWithNavController(navController)
-
-
-
-
-
-
-
-
-//        viewModel = ViewModelProvider(this, factory).get(RecipeViewModel::class.java)
-//        viewModel.recipeLive.value = mutableListOf()
 
     }
 

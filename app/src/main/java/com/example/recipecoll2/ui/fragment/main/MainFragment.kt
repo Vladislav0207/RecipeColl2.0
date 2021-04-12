@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
+import com.example.recipecoll2.ui.fragment.information.InformationViewModel
 import com.example.recipecoll2.ui.model.RecipeView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -24,13 +26,15 @@ import kotlinx.android.synthetic.main.fragment_main.*
 class MainFragment : Fragment() {
     lateinit var navController: NavController
     val viewModel: MainViewModel by viewModels()
+    val informationViewModel: InformationViewModel by activityViewModels()
     lateinit var adapter: RecipeAdapter
     var recipes = mutableListOf<RecipeView>()
 
     val recipeCallback = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
-
-        }
+            informationViewModel.informationMutableLiveData = recipes[adapterPosition]
+            navController.navigate(R.id.informationFragment)
+    }
 
         override fun changeFavourite(adapterPosition: Int) {
             if (recipes[adapterPosition].isFavorite == 0) {
@@ -43,10 +47,6 @@ class MainFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.getData()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +61,7 @@ class MainFragment : Fragment() {
 
         navController = findNavController()
 
-
+        viewModel.getData()
 
 
         viewModel.recipeMutableLiveData.value?.let {

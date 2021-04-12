@@ -7,4 +7,6 @@
     <string name="close">close</string>
     <string name="ingredients">Ingredients</string>
     <string name="get">Get</string>
+    <string name="readyInMinutes">"readyInMinutes: "</string>
+    <string name="servings">"servings: "</string>
 </resources>

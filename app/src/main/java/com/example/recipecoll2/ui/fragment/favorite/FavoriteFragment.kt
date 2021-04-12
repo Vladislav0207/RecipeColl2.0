@@ -16,6 +16,7 @@ import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
+import com.example.recipecoll2.ui.fragment.information.InformationViewModel
 import com.example.recipecoll2.ui.model.RecipeView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favorite.*
@@ -26,10 +27,12 @@ import javax.inject.Inject
 class FavoriteFragment : Fragment() {
     lateinit var navController: NavController
     val viewModel: FavoriteViewModel by viewModels()
+    val informationViewModel: InformationViewModel by viewModels()
     var favoriteRecipesList = mutableListOf<RecipeView>()
 
     val recipeCallBack = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
+            informationViewModel.informationMutableLiveData = favoriteRecipesList[adapterPosition]
             navController.navigate(R.id.informationFragment)
         }
 
@@ -42,7 +45,6 @@ class FavoriteFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getFavorites()
     }
 
     override fun onCreateView(
@@ -56,6 +58,8 @@ class FavoriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = findNavController()
+
+        viewModel.getFavorites()
 
         viewModel.favoriteMutableLiveData.value?.let {
             favoriteRecipesList = viewModel.favoriteMutableLiveData.value!!
