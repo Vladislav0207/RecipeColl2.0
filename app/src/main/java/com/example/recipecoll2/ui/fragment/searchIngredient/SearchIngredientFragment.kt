@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_search_ingredient.*
 class SearchIngredientFragment : Fragment() {
 
     lateinit var navController: NavController
-    lateinit var viewModel: RecipeViewModel
+    lateinit var viewModel: SearchIngredientViewModel
     lateinit var adapter: IngredientAdapter
     var ingredients = mutableListOf<IngredientOnlyName>()
 
@@ -35,15 +35,14 @@ class SearchIngredientFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        viewModel = ViewModelProvider(activity as MainActivity).get(RecipeViewModel::class.java)
         return inflater.inflate(R.layout.fragment_search_ingredient, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        viewModel.getAllIngredientsView()
-        ingredients.addAll(viewModel.ingredientsView.sortedBy { it.name })
+       // viewModel.getAllIngredientsView()
+       // ingredients.addAll(viewModel.ingredientsView.sortedBy { it.name })
         adapter = IngredientAdapter(ingredients, ingredientCallBack)
         ingredientRecyclerView.adapter = adapter
         ingredientRecyclerView.layoutManager = LinearLayoutManager(this.context)
@@ -57,7 +56,7 @@ class SearchIngredientFragment : Fragment() {
             val listNameIngredientsSelect: MutableList<IngredientOnlyName> =
                 ingredients.filter { it.isSelect }.toMutableList()
 
-            viewModel.listOfIngredientSelected = listNameIngredientsSelect
+          //  viewModel.listOfIngredientSelected = listNameIngredientsSelect
 
             viewModel.searchByIngredient()
 

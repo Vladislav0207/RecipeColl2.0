@@ -15,9 +15,11 @@ import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.model.RecipeView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_information.*
+import javax.inject.Inject
 
 class InformationFragment : Fragment() {
     lateinit var navController: NavController
+    @Inject
     lateinit var viewModel: InformationViewModel
     lateinit var recipe: RecipeView
     override fun onCreate(savedInstanceState: Bundle?) {

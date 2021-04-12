@@ -1,6 +1,7 @@
 package com.example.recipecoll2.ui.fragment.favorite
 
 import android.content.Context
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,9 +11,10 @@ import com.example.recipecoll2.ui.model.RecipeView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavoriteViewModel(
-    private val context: Context,
+
+class FavoriteViewModel @ViewModelInject constructor(
     private val recipeInteractor: RecipeInteractor
 ) : ViewModel() {
 
@@ -27,6 +29,7 @@ class FavoriteViewModel(
     fun updateOutFavorites(recipeId: Int) {
         viewModelScope.launch {
             recipeInteractor.updateRecipe(recipeId, 0)
+            getFavorites()
         }
     }
 }

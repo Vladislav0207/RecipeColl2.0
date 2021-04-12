@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipecoll2.R
-import com.example.recipecoll2.ui.viewModel.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -19,9 +18,9 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     lateinit var navController: NavController
-    lateinit var viewModel: RecipeViewModel
-    @Inject
-    lateinit var factory: RecipeViewModelFactory
+//    lateinit var viewModel: RecipeViewModel
+//    @Inject
+//    lateinit var factory: RecipeViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +40,8 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        viewModel = ViewModelProvider(this, factory).get(RecipeViewModel::class.java)
-        viewModel.recipeLive.value = mutableListOf()
+//        viewModel = ViewModelProvider(this, factory).get(RecipeViewModel::class.java)
+//        viewModel.recipeLive.value = mutableListOf()
 
     }
 

@@ -1,45 +1,42 @@
 package com.example.recipecoll2.ui.fragment.main
 
-import android.content.Intent
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
-import com.example.recipecoll2.database.model.Recipe
-import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
-import com.example.recipecoll2.ui.fragment.information.InformationFragment
 import com.example.recipecoll2.ui.model.RecipeView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
     lateinit var navController: NavController
-    lateinit var viewModel: MainViewModel
+    val viewModel: MainViewModel by viewModels()
     lateinit var adapter: RecipeAdapter
     var recipes = mutableListOf<RecipeView>()
 
     val recipeCallback = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
-            val intent = Intent(context, InformationFragment::class.java)
-            intent.putExtra("recipeID", recipes[adapterPosition].id)
-            startActivity(intent)
+
         }
 
         override fun changeFavourite(adapterPosition: Int) {
             if (recipes[adapterPosition].isFavorite == 0) {
-                viewModel.updateInFavorites(adapterPosition)
+                viewModel.updateInFavorites(recipes[adapterPosition].id)
             } else {
                 viewModel.updateOutFavorites(recipes[adapterPosition].id)
-                viewModel.recipeMutableLiveData.value!![adapterPosition].isFavorite = 0
             }
             mainRecyclerView.adapter!!.notifyItemChanged(adapterPosition)
 
@@ -48,16 +45,13 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.getData()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(activity as MainActivity).get(MainViewModel::class.java)
-
-
 
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
@@ -70,21 +64,20 @@ class MainFragment : Fragment() {
 
 
 
-        viewModel.getData()
-        recipes = viewModel.recipeMutableLiveData.value!!
-
+        viewModel.recipeMutableLiveData.value?.let {
+            recipes = viewModel.recipeMutableLiveData.value!!
+        }
 
         adapter = RecipeAdapter(recipes, recipeCallback)
         mainRecyclerView.adapter = adapter
         mainRecyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.recipeMutableLiveData.observe(viewLifecycleOwner, Observer {
+        viewModel.recipeMutableLiveData.observe(viewLifecycleOwner)
+        {
             recipes.clear()
             recipes.addAll(it)
-            if (mainRecyclerView != null) {
-                mainRecyclerView.adapter?.notifyDataSetChanged()
-            }
-        })
+            mainRecyclerView.adapter?.notifyDataSetChanged()
+        }
     }
 }
 

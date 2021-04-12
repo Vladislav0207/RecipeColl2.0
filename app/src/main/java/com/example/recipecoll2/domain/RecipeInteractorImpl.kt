@@ -2,8 +2,9 @@ package com.example.recipecoll2.domain
 
 import com.example.recipecoll2.domain.model.DomainRecipe
 import com.example.recipecoll2.domain.model.IngredientOnlyName
+import javax.inject.Inject
 
-class RecipeInteractorImpl(
+class RecipeInteractorImpl @Inject constructor(
     private val databaseRepository: DatabaseRepository,
     private val networkRepository: NetworkRepository
 ) : RecipeInteractor {
@@ -11,8 +12,9 @@ class RecipeInteractorImpl(
         return if (networkRepository.getRemoteDataRecipe().isEmpty()) {
             databaseRepository.getAllRecipes().toMutableList()
         } else {
-            val recipes = networkRepository.getRemoteDataRecipe()
+            var recipes = networkRepository.getRemoteDataRecipe()
             databaseRepository.insertRecipes(recipes)
+            recipes = databaseRepository.getAllRecipes().toMutableList()
             recipes
         }
     }

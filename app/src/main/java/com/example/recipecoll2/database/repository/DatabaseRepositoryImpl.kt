@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 class DatabaseRepositoryImpl @Inject constructor(@ApplicationContext context: Context) :
     DatabaseRepository {
-    //build database
     val recipeDatabase: RecipeDatabase = Room.databaseBuilder(
         context,
         RecipeDatabase::class.java,
@@ -26,7 +25,6 @@ class DatabaseRepositoryImpl @Inject constructor(@ApplicationContext context: Co
     )
         .build()
 
-    //realization DaoFun
     override suspend fun insertRecipes(domainRecipes: MutableList<DomainRecipe>) {
         val localRecipes = domainRecipes.mapTo(mutableListOf()) {
             it.toLocalRecipe()

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -16,42 +17,38 @@ import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
 import com.example.recipecoll2.ui.model.RecipeView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment() {
     lateinit var navController: NavController
-    lateinit var viewModel: FavoriteViewModel
+    val viewModel: FavoriteViewModel by viewModels()
     var favoriteRecipesList = mutableListOf<RecipeView>()
 
     val recipeCallBack = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
-            viewModel.showRecipe = favoriteRecipesList[adapterPosition]
             navController.navigate(R.id.informationFragment)
         }
 
         override fun changeFavourite(adapterPosition: Int) {
             viewModel.updateOutFavorites(favoriteRecipesList[adapterPosition].id)
-            favoriteRecipesList.remove(favoriteRecipesList[adapterPosition])
-            favoriteRecyclerView.adapter!!.notifyDataSetChanged()
+            favoriteRecyclerView.adapter?.notifyDataSetChanged()
         }
 
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        viewModel.getFavorites()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        viewModel = ViewModelProvider(activity as MainActivity).get(FavoriteViewModel::class.java)
-
-
         return inflater.inflate(R.layout.fragment_favorite, container, false)
     }
 
@@ -60,7 +57,9 @@ class FavoriteFragment : Fragment() {
 
         navController = findNavController()
 
-        favoriteRecipesList = viewModel.favoriteMutableLiveData.value!!
+        viewModel.favoriteMutableLiveData.value?.let {
+            favoriteRecipesList = viewModel.favoriteMutableLiveData.value!!
+        }
 
 
         val adapter = RecipeAdapter(favoriteRecipesList, recipeCallBack)
@@ -71,9 +70,7 @@ class FavoriteFragment : Fragment() {
         viewModel.favoriteMutableLiveData.observe(viewLifecycleOwner, Observer {
             favoriteRecipesList.clear()
             favoriteRecipesList.addAll(it)
-            if (favoriteRecyclerView != null) {
-                favoriteRecyclerView.adapter?.notifyDataSetChanged()
-            }
+            favoriteRecyclerView.adapter?.notifyDataSetChanged()
         })
     }
 }
