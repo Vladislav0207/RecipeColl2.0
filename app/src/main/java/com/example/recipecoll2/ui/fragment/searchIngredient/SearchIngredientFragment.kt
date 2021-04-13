@@ -5,27 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
-import com.example.recipecoll2.domain.model.IngredientOnlyName
-import com.example.recipecoll2.ui.MainActivity
 import com.example.recipecoll2.ui.fragment.IngredientAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
+import com.example.recipecoll2.ui.model.IngredientOnlyNameView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search_ingredient.*
 
+@AndroidEntryPoint
 class SearchIngredientFragment : Fragment() {
 
     lateinit var navController: NavController
-    lateinit var viewModel: SearchIngredientViewModel
-    lateinit var adapter: IngredientAdapter
-    var ingredients = mutableListOf<IngredientOnlyName>()
+    val viewModel: SearchIngredientViewModel by viewModels()
+    val shareViewModel: ShareResultViewModel by activityViewModels()
+    var ingredients = mutableListOf<IngredientOnlyNameView>()
 
-    val ingredientCallBack = object : OnIngredientItemSelect {
+
+    private val ingredientCallBack = object : OnIngredientItemSelect {
         override fun selectIngredient(adapterPosition: Int) {
             ingredients[adapterPosition].isSelect = !ingredients[adapterPosition].isSelect
+            ingredientRecyclerView.adapter?.notifyItemChanged(adapterPosition)
         }
 
     }
@@ -41,32 +46,23 @@ class SearchIngredientFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-       // viewModel.getAllIngredientsView()
-       // ingredients.addAll(viewModel.ingredientsView.sortedBy { it.name })
-        adapter = IngredientAdapter(ingredients, ingredientCallBack)
+        viewModel.getAllIngredientsOnlyNameView()
+        viewModel.ingredientOnlyNameViewMutableLiveData.value?.let {
+            ingredients = viewModel.ingredientOnlyNameViewMutableLiveData.value!!
+        }
+        val adapter = IngredientAdapter(ingredients, ingredientCallBack)
         ingredientRecyclerView.adapter = adapter
         ingredientRecyclerView.layoutManager = LinearLayoutManager(this.context)
-        ingredientRecyclerView.adapter?.notifyDataSetChanged()
-
-
-
-
-        btnResultSearch.setOnClickListener {
-            //create list of names
-            val listNameIngredientsSelect: MutableList<IngredientOnlyName> =
-                ingredients.filter { it.isSelect }.toMutableList()
-
-          //  viewModel.listOfIngredientSelected = listNameIngredientsSelect
-
-            viewModel.searchByIngredient()
-
-
-            navController.navigate(R.id.resultSearchFragment)
-
+        viewModel.ingredientOnlyNameViewMutableLiveData.observe(viewLifecycleOwner)
+        {
+            ingredients.clear()
+            ingredients.addAll(it)
+            ingredientRecyclerView.adapter?.notifyDataSetChanged()
         }
 
-
+        btnResultSearch.setOnClickListener {
+            shareViewModel.getChangedIngredients(ingredients)
+            navController.navigate(R.id.resultSearchFragment)
+        }
     }
-
-
 }

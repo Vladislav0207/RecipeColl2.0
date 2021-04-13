@@ -8,7 +8,7 @@ interface RecipeInteractor {
 
     suspend fun updateRecipe(recipeId: Int, isSelected: Int)
 
-    suspend fun getAllIngredientsForView(): MutableSet<IngredientOnlyName>
+    suspend fun getAllIngredientsOnlyName(): MutableSet<IngredientOnlyName>
 
     suspend fun searchByIngredient(listOfNames: MutableList<IngredientOnlyName>): MutableList<DomainRecipe>
 

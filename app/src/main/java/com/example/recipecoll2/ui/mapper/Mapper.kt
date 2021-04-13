@@ -2,6 +2,8 @@ package com.example.recipecoll2.ui.mapper
 
 import com.example.recipecoll2.domain.model.DomainIngredient
 import com.example.recipecoll2.domain.model.DomainRecipe
+import com.example.recipecoll2.domain.model.IngredientOnlyName
+import com.example.recipecoll2.ui.model.IngredientOnlyNameView
 import com.example.recipecoll2.ui.model.IngredientView
 import com.example.recipecoll2.ui.model.RecipeView
 
@@ -29,4 +31,16 @@ fun DomainRecipe.toRecipeView() =
         image,
         instructions,
         isFavorite
+    )
+
+fun IngredientOnlyName.toIngredientOnlyNameView() =
+    IngredientOnlyNameView(
+        name,
+        isSelect
+    )
+
+fun IngredientOnlyNameView.toIngredientOnlyName() =
+    IngredientOnlyName(
+        name,
+        isSelect
     )

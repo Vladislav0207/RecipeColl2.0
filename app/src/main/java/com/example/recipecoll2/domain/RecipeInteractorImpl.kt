@@ -23,7 +23,7 @@ class RecipeInteractorImpl @Inject constructor(
         databaseRepository.updateRecipe(recipeId, isSelected)
     }
 
-    override suspend fun getAllIngredientsForView(): MutableSet<IngredientOnlyName> {
+    override suspend fun getAllIngredientsOnlyName(): MutableSet<IngredientOnlyName> {
         return databaseRepository.getAllIngredients().mapTo(mutableSetOf<IngredientOnlyName>()) {
             IngredientOnlyName(
                 it.nameClean

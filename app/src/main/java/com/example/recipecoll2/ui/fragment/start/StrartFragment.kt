@@ -1,15 +1,13 @@
-package com.example.recipecoll2.ui.fragment.main
+package com.example.recipecoll2.ui.fragment.start
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -23,9 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_main.*
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class StrartFragment : Fragment() {
     lateinit var navController: NavController
-    val viewModel: MainViewModel by viewModels()
+    val viewModel: StartViewModel by viewModels()
     val informationViewModel: InformationViewModel by activityViewModels()
     lateinit var adapter: RecipeAdapter
     var recipes = mutableListOf<RecipeView>()
@@ -42,7 +40,7 @@ class MainFragment : Fragment() {
             } else {
                 viewModel.updateOutFavorites(recipes[adapterPosition].id)
             }
-            mainRecyclerView.adapter!!.notifyItemChanged(adapterPosition)
+            mainRecyclerView.adapter?.notifyItemChanged(adapterPosition)
 
         }
     }
@@ -53,6 +51,12 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        viewModel.getData()
+
+
+        viewModel.recipeMutableLiveData.value?.let {
+            recipes = viewModel.recipeMutableLiveData.value!!
+        }
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
@@ -61,12 +65,7 @@ class MainFragment : Fragment() {
 
         navController = findNavController()
 
-        viewModel.getData()
 
-
-        viewModel.recipeMutableLiveData.value?.let {
-            recipes = viewModel.recipeMutableLiveData.value!!
-        }
 
         adapter = RecipeAdapter(recipes, recipeCallback)
         mainRecyclerView.adapter = adapter

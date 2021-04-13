@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.recipecoll2.ui.fragment.main.MainFragment"
+        android:name="com.example.recipecoll2.ui.fragment.start.StrartFragment"
         android:label="Main"
         tools:layout="@layout/fragment_main" />
 
