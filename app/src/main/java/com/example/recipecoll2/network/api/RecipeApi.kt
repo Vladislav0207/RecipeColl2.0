@@ -24,9 +24,6 @@ interface ApiService {
         @Query("number") number: Int = NUMBER
     ): Recipes
 
-
-
-
     companion object Factory {
         fun create(): ApiService {
             val okHttpClient = OkHttpClient.Builder()

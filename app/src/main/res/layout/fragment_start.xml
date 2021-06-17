@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.start.StrartFragment"
+    tools:context=".ui.fragment.start.StartFragment"
+    android:orientation="vertical"
     android:background="@color/colorPrimary">
 
+
+    <SearchView
+        android:id="@+id/startSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mainRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</RelativeLayout>
+</LinearLayout>

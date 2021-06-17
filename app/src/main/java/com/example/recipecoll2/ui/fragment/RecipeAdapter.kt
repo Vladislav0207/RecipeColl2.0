@@ -1,29 +1,33 @@
-package com.example.recipecoll2.ui
+package com.example.recipecoll2.ui.fragment
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipecoll2.R
-import com.example.recipecoll2.database.model.Recipe
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
 import com.example.recipecoll2.ui.model.RecipeView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recipe_item.view.*
+import java.util.*
 
 class RecipeAdapter(
-    val recipes: MutableList<RecipeView>,
-    val recipeCallback: OnRecipeItemClick
+    private val recipes: MutableList<RecipeView>,
+    private val recipeCallback: OnRecipeItemClick
 ) :
-    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
+    RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>(), Filterable {
+
+    var recipesAdapter = recipes
 
     class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<TextView>(R.id.nameRecipe)
-        val ingredients = itemView.findViewById<TextView>(R.id.ingredientsRecipe)
-        val icon = itemView.findViewById<ImageView>(R.id.imageRecipe)
-        val iconFavorite = itemView.findViewById<ImageView>(R.id.imageRecipeAddFavorite)
+        val name: TextView = itemView.findViewById(R.id.nameRecipe)
+        val ingredients: TextView = itemView.findViewById(R.id.ingredientsRecipe)
+        val icon: ImageView = itemView.findViewById(R.id.imageRecipe)
+        val iconFavorite: ImageView = itemView.findViewById(R.id.imageRecipeAddFavorite)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -43,29 +47,55 @@ class RecipeAdapter(
     }
 
     override fun getItemCount(): Int {
-        return recipes.size
+        return recipesAdapter.size
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
 
-        holder.name.text = recipes[position].title
+        holder.name.text = recipesAdapter[position].title
 
         var body = ""
-        for (i in 0 until recipes[position].extendedIngredients.size) {
-            if (i != 0) {
-                body += ", ${recipes[position].extendedIngredients[i].nameClean}"
+        for (i in recipesAdapter[position].extendedIngredients.indices) {
+            body += if (i != 0) {
+                ", ${recipesAdapter[position].extendedIngredients[i].nameClean}"
             } else {
-                body += "Ingredients: ${recipes[position].extendedIngredients[i].nameClean}"
+                "Ingredients: ${recipesAdapter[position].extendedIngredients[i].nameClean}"
             }
         }
         holder.ingredients.text = body
 
-        Picasso.get().load(recipes[position].image).into(holder.icon)
+        Picasso.get().load(recipesAdapter[position].image).into(holder.icon)
 
-        if (recipes[position].isFavorite == 0) {
+        if (recipesAdapter[position].isFavorite == 0) {
             holder.iconFavorite.setImageResource(R.drawable.ic_favorite_border_24)
         } else {
             holder.iconFavorite.setImageResource(R.drawable.ic_favorite_24)
         }
     }
+
+    override fun getFilter(): Filter {
+        return object : Filter(){
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val queryString = constraint.toString().toLowerCase(Locale.ROOT)
+
+                val filterResults =FilterResults()
+                filterResults.values = if (queryString.isEmpty()){
+                    recipes
+                }
+                else {
+                    recipes.filter {
+                        it.title.toLowerCase(Locale.ROOT).contains(queryString)
+                    }
+                }
+                return filterResults
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                recipesAdapter = results?.values as MutableList<RecipeView>
+                notifyDataSetChanged()
+            }
+
+        }
+    }
+
 }

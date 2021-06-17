@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
@@ -21,11 +20,9 @@ import kotlinx.android.synthetic.main.fragment_search_ingredient.*
 @AndroidEntryPoint
 class SearchIngredientFragment : Fragment() {
 
-    lateinit var navController: NavController
     val viewModel: SearchIngredientViewModel by viewModels()
-    val shareViewModel: ShareResultViewModel by activityViewModels()
+    private val shareViewModel: ShareResultViewModel by activityViewModels()
     var ingredients = mutableListOf<IngredientOnlyNameView>()
-
 
     private val ingredientCallBack = object : OnIngredientItemSelect {
         override fun selectIngredient(adapterPosition: Int) {
@@ -45,7 +42,7 @@ class SearchIngredientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = findNavController()
+        val navController = findNavController()
         viewModel.getAllIngredientsOnlyNameView()
         viewModel.ingredientOnlyNameViewMutableLiveData.value?.let {
             ingredients = viewModel.ingredientOnlyNameViewMutableLiveData.value!!
@@ -53,6 +50,7 @@ class SearchIngredientFragment : Fragment() {
         val adapter = IngredientAdapter(ingredients, ingredientCallBack)
         ingredientRecyclerView.adapter = adapter
         ingredientRecyclerView.layoutManager = LinearLayoutManager(this.context)
+
         viewModel.ingredientOnlyNameViewMutableLiveData.observe(viewLifecycleOwner)
         {
             ingredients.clear()

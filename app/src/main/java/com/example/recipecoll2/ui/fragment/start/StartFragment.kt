@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -13,22 +15,23 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipecoll2.R
-import com.example.recipecoll2.ui.RecipeAdapter
+import com.example.recipecoll2.ui.fragment.RecipeAdapter
 import com.example.recipecoll2.ui.fragment.callBack.OnRecipeItemClick
 import com.example.recipecoll2.ui.fragment.information.InformationViewModel
 import com.example.recipecoll2.ui.model.RecipeView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_main.*
+import kotlinx.android.synthetic.main.fragment_start.*
+import java.util.*
 
 @AndroidEntryPoint
-class StrartFragment : Fragment() {
+class StartFragment : Fragment() {
     lateinit var navController: NavController
     val viewModel: StartViewModel by viewModels()
     val informationViewModel: InformationViewModel by activityViewModels()
-    lateinit var adapter: RecipeAdapter
+    private lateinit var adapter: RecipeAdapter
     var recipes = mutableListOf<RecipeView>()
 
-    val recipeCallback = object : OnRecipeItemClick {
+    private val recipeCallback = object : OnRecipeItemClick {
         override fun showRecipe(adapterPosition: Int) {
             informationViewModel.informationMutableLiveData = recipes[adapterPosition]
             navController.navigate(R.id.informationFragment)
@@ -53,11 +56,10 @@ class StrartFragment : Fragment() {
 
         viewModel.getData()
 
-
         viewModel.recipeMutableLiveData.value?.let {
             recipes = viewModel.recipeMutableLiveData.value!!
         }
-        return inflater.inflate(R.layout.fragment_main, container, false)
+        return inflater.inflate(R.layout.fragment_start, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +79,28 @@ class StrartFragment : Fragment() {
             recipes.addAll(it)
             mainRecyclerView.adapter?.notifyDataSetChanged()
         }
+
+        startSearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (recipes.none {
+                        it.title.toLowerCase(Locale.ROOT).contains(query!!)
+                    })
+                    {
+                        Toast.makeText(activity, getString(R.string.recipeNotFound), Toast.LENGTH_SHORT).show()
+                    } else
+                {
+                    adapter.filter.filter(query)
+                }
+                return false
+            }
+        })
     }
 }
+
+
 

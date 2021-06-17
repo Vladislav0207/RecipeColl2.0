@@ -5,8 +5,10 @@
     <string name="item3">Favorite</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="ingredients">Ingredients</string>
-    <string name="get">Get</string>
+    <string name="ingredients">Ingredients: </string>
+    <string name="getResult">Get result</string>
     <string name="readyInMinutes">"readyInMinutes: "</string>
     <string name="servings">"servings: "</string>
+    <string name="recipeNotFound">"Recipe not found"</string>
+
 </resources>
