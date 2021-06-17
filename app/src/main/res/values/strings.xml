@@ -10,5 +10,6 @@
     <string name="readyInMinutes">"readyInMinutes: "</string>
     <string name="servings">"servings: "</string>
     <string name="recipeNotFound">"Recipe not found"</string>
-
+    <string name="ingredientNotFound">"Ingredient not found"</string>
+    <string name="textview">Loading....</string>
 </resources>

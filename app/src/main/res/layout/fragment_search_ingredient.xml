@@ -5,10 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
 
+    <SearchView
+        android:id="@+id/ingredientSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingredientRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ingredientSearchView"
         android:layout_above="@+id/btnResultSearchCard"
          />
 
@@ -16,10 +24,11 @@
         android:id="@+id/btnResultSearchCard"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         app:cardCornerRadius="8dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="2dp"
         >
     <Button
         android:id="@+id/btnResultSearch"

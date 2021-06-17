@@ -2,30 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="56dp"
     android:background="@color/colorPrimary">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="48dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         app:cardCornerRadius="8dp"
         android:layout_centerVertical="true"
+        app:cardMaxElevation="2dp"
         >
     <TextView
         android:id="@+id/nameSearchIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="@string/textview"
         android:textSize="24sp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="48dp"/>
 
     <ImageView
         android:id="@+id/imageSelectSearchIngredient"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ic_baseline_check_box_outline_blank_24"
         android:layout_centerVertical="true"

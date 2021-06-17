@@ -85,7 +85,6 @@ class StartFragment : Fragment() {
                 adapter.filter.filter(newText)
                 return false
             }
-
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (recipes.none {
                         it.title.toLowerCase(Locale.ROOT).contains(query!!)

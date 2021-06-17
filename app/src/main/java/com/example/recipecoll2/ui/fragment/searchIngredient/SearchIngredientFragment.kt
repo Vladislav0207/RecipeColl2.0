@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,6 +18,8 @@ import com.example.recipecoll2.ui.fragment.callBack.OnIngredientItemSelect
 import com.example.recipecoll2.ui.model.IngredientOnlyNameView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_search_ingredient.*
+import kotlinx.android.synthetic.main.fragment_start.*
+import java.util.*
 
 @AndroidEntryPoint
 class SearchIngredientFragment : Fragment() {
@@ -62,5 +66,24 @@ class SearchIngredientFragment : Fragment() {
             shareViewModel.getChangedIngredients(ingredients)
             navController.navigate(R.id.resultSearchFragment)
         }
+
+        ingredientSearchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (ingredients.none {
+                        it.name.toLowerCase(Locale.ROOT).contains(query!!)
+                    })
+                {
+                    Toast.makeText(activity, getString(R.string.ingredientNotFound), Toast.LENGTH_SHORT).show()
+                } else
+                {
+                    adapter.filter.filter(query)
+                }
+                return false
+            }
+        })
     }
 }
