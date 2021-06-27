@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">ReciPeColl</string>
+    <string name="item1">Main</string>
+    <string name="item2">Search by ingredient</string>
+    <string name="item3">Favorite</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+    <string name="ingredients">Ingredients: </string>
+    <string name="getResult">Get result</string>
+    <string name="readyInMinutes">"readyInMinutes: "</string>
+    <string name="servings">"servings: "</string>
+    <string name="recipeNotFound">"Recipe not found"</string>
+    <string name="ingredientNotFound">"Ingredient not found"</string>
+    <string name="textview">Loading....</string>
+</resources>

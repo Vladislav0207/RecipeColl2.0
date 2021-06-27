@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/mainFragment">
+
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.freeze.ui.ui.fragment.start.StartFragment"
+        android:label="Main"
+        tools:layout="@layout/fragment_start" />
+
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.freeze.ui.ui.fragment.information.InformationFragment"
+        android:label="Information"
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.freeze.ui.ui.fragment.favorite.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/searchIngredientFragment"
+        android:name="com.freeze.ui.ui.fragment.searchIngredient.SearchIngredientFragment"
+        android:label="Search by ingredient"
+        tools:layout="@layout/fragment_search_ingredient" />
+
+
+    <fragment
+        android:id="@+id/resultSearchFragment"
+        android:name="com.freeze.ui.ui.fragment.resultSearch.ResultSearchFragment"
+        android:label="Result of search"
+        tools:layout="@layout/fragment_result_search" />
+</navigation>
